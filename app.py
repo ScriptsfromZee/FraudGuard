@@ -165,7 +165,7 @@ st.markdown("""
 <div class="hero">
   <div class="hero-icon">🛡️</div>
   <div>
-    <p class="hero-title">FraudGuard</p>
+    <p class="hero-title">Jojo</p>
     <p class="hero-sub">
       Your free AI-powered fraud detection assistant
       &nbsp;·&nbsp; No sign-up required &nbsp;·&nbsp; Always free
@@ -183,7 +183,7 @@ if not st.session_state.messages:
     st.session_state.messages.append({
         "role": "assistant",
         "content": (
-            "Hello! I am FraudGuard, your personal fraud detection assistant. "
+            "Hello! I am Jojo, your personal fraud detection assistant. "
             "I am here to help you check if a message, call, job offer or investment "
             "opportunity is real or a scam.\n\n"
             "Just describe or paste what you received and I will tell you honestly what "
