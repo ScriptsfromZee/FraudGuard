@@ -1,50 +1,39 @@
-"""
-FraudGuard — app.py
-"""
 
 import streamlit as st
 from groq import Groq
 
-# ── Page config (must be the FIRST Streamlit call in the file) ─────────────────
+# ── Page config — must be the very first Streamlit call ───────────────────────
 st.set_page_config(
     page_title="Jojo",
     page_icon="🛡️",
     layout="centered",
-    initial_sidebar_state="expanded"
 )
 
-# ── Load external CSS ──────────────────────────────────────────────────────────
+# ── Load external CSS ─────────────────────────────────────────────────────────
 def load_css(path: str) -> None:
-    """Read a CSS file from disk and inject it into the Streamlit page."""
     with open(path, "r", encoding="utf-8") as fh:
         st.markdown(f"<style>{fh.read()}</style>", unsafe_allow_html=True)
 
 load_css("style.css")
 
-# ── Validate secrets on startup ────────────────────────────────────────────────
-# This runs every time the page loads. If the key is missing, the user sees
-# a clear error immediately instead of a confusing crash mid-conversation.
+# ── Validate API key on startup ───────────────────────────────────────────────
 if "GROQ_API_KEY" not in st.secrets:
     st.error(
-        "Setup error: GROQ_API_KEY is not set in Streamlit secrets. "
-        "Go to your Streamlit app settings > Secrets and add:\n\n"
-        "GROQ_API_KEY = \"your-key-here\""
+        "Setup error: GROQ_API_KEY is missing from Streamlit secrets.\n\n"
+        "Go to your app settings → Secrets and add:\n"
+        'GROQ_API_KEY = "your-key-here"'
     )
     st.stop()
 
-# ── Groq client — created ONCE and cached for the app lifetime ─────────────────
-# BUG FIX: In the previous version, Groq() was called inside the if prompt block,
-# which means a new client object was created on every single message.
-# @st.cache_resource fixes this — the client is built once on first load and
-# then reused for every user and every message for the lifetime of the app.
+# ── Groq client — built once and reused for all users and messages ────────────
 @st.cache_resource
 def get_groq_client() -> Groq:
     return Groq(api_key=st.secrets["GROQ_API_KEY"])
 
 client = get_groq_client()
 
-# ── System prompt ──────────────────────────────────────────────────────────────
-SYSTEM_PROMPT = """You are FraudGuard, an AI-powered fraud detection and awareness
+# ── System prompt ─────────────────────────────────────────────────────────────
+SYSTEM_PROMPT = """You are Jojo — an AI-powered fraud detection and awareness
 assistant built specifically to help Nigerians identify financial scams and AI-enabled fraud.
 You speak in plain, friendly, easy-to-understand English.
 
@@ -85,17 +74,19 @@ THINGS YOU WILL NEVER DO:
 - Guarantee that something is 100% safe — always encourage caution
 - Shame or blame anyone for being scammed — fraud happens to smart people too"""
 
-# ── Available models ───────────────────────────────────────────────────────────
+MAX_HISTORY_MESSAGES = 10
+
+# ── Available models ──────────────────────────────────────────────────────────
 MODELS = {
     "Llama 3.3 70B — Best quality (recommended)": "llama-3.3-70b-versatile",
     "Llama 3.1 8B — Fastest responses":           "llama-3.1-8b-instant",
-    "Gemma 2 9B — Google's model":                "gemma2-9b-it",
+    "Gemma 2 9B — Google model":                  "gemma2-9b-it",
     "Mixtral 8x7B — Good balance":                "mixtral-8x7b-32768",
 }
 
-# ── Sidebar ────────────────────────────────────────────────────────────────────
+# ── Sidebar ───────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("## 🛡️ FraudGuard")
+    st.markdown("## 🛡️ Jojo")
     st.markdown("---")
 
     st.markdown("""
@@ -117,7 +108,6 @@ with st.sidebar:
         f'<div class="model-badge">Running: {selected_model_id}</div>',
         unsafe_allow_html=True,
     )
-
     st.markdown("---")
 
     st.markdown("""
@@ -156,11 +146,15 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
+    # Show how many messages are in the current session
+    msg_count = len([m for m in st.session_state.get("messages", []) if m["role"] == "user"])
+    st.caption(f"Messages this session: {msg_count}")
+
     if st.button("Clear chat history", use_container_width=True):
         st.session_state.messages = []
         st.rerun()
 
-# ── Main area — hero + tip bar ─────────────────────────────────────────────────
+# ── Main area ─────────────────────────────────────────────────────────────────
 st.markdown("""
 <div class="hero">
   <div class="hero-icon">🛡️</div>
@@ -168,43 +162,54 @@ st.markdown("""
     <p class="hero-title">Jojo</p>
     <p class="hero-sub">
       Your free AI-powered fraud detection assistant
-      &nbsp;·&nbsp; No sign-up required &nbsp;·&nbsp; Always free
+      &nbsp;·&nbsp; No sign-up required &nbsp;·&nbsp; Free
     </p>
   </div>
 </div>
 """, unsafe_allow_html=True)
 
-# ── Session state: chat history ────────────────────────────────────────────────
+# ── Session state ─────────────────────────────────────────────────────────────
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# Add greeting on first load or after clearing
 if not st.session_state.messages:
     st.session_state.messages.append({
         "role": "assistant",
         "content": (
-            "Hello! I am Jojo, your personal fraud detection assistant. "
-            "I am here to help you check if a message, call, job offer or investment "
+            "Hello! I am Jojo — your personal fraud detection assistant. "
+            "I am here to help you check if a message, call, job offer, or investment "
             "opportunity is real or a scam.\n\n"
             "Just describe or paste what you received and I will tell you honestly what "
             "I think. No question is too small. How can I help you today?"
         ),
     })
 
-# ── Render chat history ────────────────────────────────────────────────────────
+# ── Render full chat history on screen ───────────────────────────────────────
+# The full history is always shown to the user.
+# Only the API payload is trimmed (see below).
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.write(msg["content"])
 
-# ── Handle new user input ──────────────────────────────────────────────────────
+# ── Handle new user input ─────────────────────────────────────────────────────
 if prompt := st.chat_input("Describe the suspicious message, call, or offer here..."):
 
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.write(prompt)
 
+    # Initialise reply before try/except so it is always defined
+    # even if both the try block and except handler somehow both fail.
+    reply = ""
+
     with st.chat_message("assistant"):
         with st.spinner("Checking..."):
+
+            # Trim history sent to API — only the most recent messages.
+            # This prevents the payload from growing without limit and hitting
+            # Groq's token-per-minute rate limit (the cause of stopping at ~17).
+            recent_messages = st.session_state.messages[-MAX_HISTORY_MESSAGES:]
+
             try:
                 response = client.chat.completions.create(
                     model=selected_model_id,
@@ -212,7 +217,7 @@ if prompt := st.chat_input("Describe the suspicious message, call, or offer here
                         [{"role": "system", "content": SYSTEM_PROMPT}]
                         + [
                             {"role": m["role"], "content": m["content"]}
-                            for m in st.session_state.messages
+                            for m in recent_messages
                         ]
                     ),
                     max_tokens=900,
@@ -221,11 +226,23 @@ if prompt := st.chat_input("Describe the suspicious message, call, or offer here
                 reply = response.choices[0].message.content
 
             except Exception as exc:
-                reply = (
-                    f"Something went wrong: {exc}\n\n"
-                    "Please try again, or switch to a different model in the sidebar."
-                )
+                error_str = str(exc)
+
+                if "429" in error_str or "rate_limit" in error_str.lower():
+                    reply = (
+                        "I am receiving too many requests right now and need a moment "
+                        "to catch up. Please wait about 30 seconds and try again. "
+                        "You can also switch to the Llama 3.1 8B model in the sidebar "
+                        "— it has a higher request limit on the free plan."
+                    )
+                else:
+                    reply = (
+                        f"Something went wrong: {error_str}\n\n"
+                        "Please try again, or switch to a different model in the sidebar."
+                    )
 
         st.write(reply)
 
-    st.session_state.messages.append({"role": "assistant", "content": reply})
+    # Only save the reply if there is content to save
+    if reply:
+        st.session_state.messages.append({"role": "assistant", "content": reply})

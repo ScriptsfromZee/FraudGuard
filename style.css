@@ -1,4 +1,3 @@
-
 /* ── Google Font ─────────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
@@ -13,7 +12,13 @@ html, body, [class*="css"] {
 }
 
 /* ── Hide Streamlit default chrome ───────────────────────── */
-#MainMenu, footer, header {
+
+footer {
+    visibility: hidden;
+}
+
+/* Hide only the "Deploy" button in the top-right, not the whole header */
+[data-testid="stToolbar"] {
     visibility: hidden;
 }
 
@@ -59,10 +64,9 @@ html, body, [class*="css"] {
 
 /* ── Chat message bubbles ────────────────────────────────── */
 /*
-   NOTE: These selectors use Streamlit's internal data-testid
-   attributes. They work as of streamlit==1.35.0. If you ever
-   upgrade Streamlit and the chat bubbles lose their styling,
-   this is the first place to check.
+   NOTE: These selectors target Streamlit's internal data-testid attributes.
+   Tested on streamlit==1.57.0. If you upgrade Streamlit and styling breaks,
+   check these selectors first — Streamlit may have renamed them.
 */
 [data-testid="stChatMessage"] {
     border-radius: 14px;
@@ -97,6 +101,14 @@ html, body, [class*="css"] {
     box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
 }
 
+/* ── Streamlit header — keep visible for the sidebar toggle ──────────────────
+   The header background is made transparent so it blends into the dark theme,
+   but the element itself stays visible so the ☰ toggle button works.        */
+[data-testid="stHeader"] {
+    background: transparent !important;
+    border-bottom: none !important;
+}
+
 /* ── Sidebar background ──────────────────────────────────── */
 [data-testid="stSidebar"] {
     background: #0D1525 !important;
@@ -104,19 +116,14 @@ html, body, [class*="css"] {
 }
 
 /*
-   BUG FIX: The wildcard rule below uses !important to set a
-   default text colour for ALL Streamlit-generated elements
-   inside the sidebar (labels, spans, etc.).
-
-   The sidebar-card rules further down ALSO use !important so
-   they can override this wildcard for their specific elements.
-   Without !important on the card rules, the wildcard wins and
-   all sidebar card text renders as the same flat grey — which
-   was the bug in the previous version.
+   The wildcard sets a default colour for all Streamlit-generated text inside
+   the sidebar. The sidebar-card rules below use !important to override it for
+   specific elements — without that, the wildcard wins and all text renders as
+   the same flat grey.
 */
-/*[data-testid="stSidebar"] * {
+[data-testid="stSidebar"] * {
     color: #CBD5E8 !important;
-}*/
+}
 
 /* ── Sidebar section cards ───────────────────────────────── */
 .sidebar-card {
@@ -127,7 +134,7 @@ html, body, [class*="css"] {
     margin-bottom: 14px;
 }
 
-/* !important here beats the sidebar wildcard above */
+/* !important beats the sidebar wildcard above */
 .sidebar-card h4 {
     font-size: 12px;
     font-weight: 700;
@@ -137,7 +144,7 @@ html, body, [class*="css"] {
     margin: 0 0 10px 0;
 }
 
-/* !important here beats the sidebar wildcard above */
+/* !important beats the sidebar wildcard above */
 .sidebar-card p,
 .sidebar-card li {
     font-size: 13px;
@@ -150,7 +157,7 @@ html, body, [class*="css"] {
     margin: 0;
 }
 
-/* ── Model badge (shown under model dropdown) ────────────── */
+/* ── Model badge ─────────────────────────────────────────── */
 .model-badge {
     display: inline-block;
     background: #0A2240;
