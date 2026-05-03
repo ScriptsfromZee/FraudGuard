@@ -95,8 +95,7 @@ with st.sidebar:
     <div class="sb-brand">
       <span class="sb-shield">🛡️</span>
       <div>
-        <div class="sb-title">FraudGuard</div>
-        <div class="sb-sub">Nigeria</div>
+        <div class="sb-sub">Jojo</div>
       </div>
     </div>
     """, unsafe_allow_html=True)
