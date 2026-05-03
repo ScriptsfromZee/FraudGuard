@@ -43,7 +43,7 @@ def get_groq_client() -> Groq:
 client = get_groq_client()
 
 # ── System prompt ──────────────────────────────────────────────────────────────
-SYSTEM_PROMPT = """You are FraudGuard Nigeria — an AI-powered fraud detection and awareness
+SYSTEM_PROMPT = """You are FraudGuard, an AI-powered fraud detection and awareness
 assistant built specifically to help Nigerians identify financial scams and AI-enabled fraud.
 You speak in plain, friendly, easy-to-understand English.
 
@@ -94,7 +94,7 @@ MODELS = {
 
 # ── Sidebar ────────────────────────────────────────────────────────────────────
 with st.sidebar:
-    st.markdown("## 🛡️ FraudGuard Nigeria")
+    st.markdown("## 🛡️ FraudGuard")
     st.markdown("---")
 
     st.markdown("""
@@ -173,13 +173,6 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-st.markdown("""
-<div class="alert-bar">
-  Tip: Describe or paste the suspicious message, call, or offer below in your own words.
-  I will tell you honestly if it looks like a scam.
-</div>
-""", unsafe_allow_html=True)
-
 # ── Session state: chat history ────────────────────────────────────────────────
 if "messages" not in st.session_state:
     st.session_state.messages = []
@@ -189,7 +182,7 @@ if not st.session_state.messages:
     st.session_state.messages.append({
         "role": "assistant",
         "content": (
-            "Hello! I am FraudGuard Nigeria, your personal fraud detection assistant. "
+            "Hello! I am FraudGuard, your personal fraud detection assistant. "
             "I am here to help you check if a message, call, job offer or investment "
             "opportunity is real or a scam.\n\n"
             "Just describe or paste what you received and I will tell you honestly what "
