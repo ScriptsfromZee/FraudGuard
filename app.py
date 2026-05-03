@@ -183,7 +183,7 @@ st.markdown("""
   <div class="hero-glow"></div>
   <div class="hero-icon-wrap">🛡️</div>
   <div class="hero-text">
-    <div class="hero-title">Jojo <span class="hero-ng">Nigeria</span></div>
+    <div class="hero-title"> <span class="hero-ng">Jojo</span></div>
     <div class="hero-sub">
       AI-powered scam detection · Free · No sign-up · Built for every Nigerian
     </div>
