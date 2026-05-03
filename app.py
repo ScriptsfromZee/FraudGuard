@@ -1,24 +1,13 @@
-"""
-FraudGuard Nigeria — app.py
-Premium rebuild. All previous bugs fixed.
-
-Key fixes in this version:
-  - initial_sidebar_state="expanded" → sidebar always open on load (was the bug)
-  - MAX_HISTORY_MESSAGES trimming → no more stopping at message 17
-  - 429 rate limit errors → friendly Nigerian-context message
-  - reply variable scoped safely before try/except
-  - @st.cache_resource client → created once, reused always
-"""
 
 import streamlit as st
 from groq import Groq
 
 # ── Page config — MUST be first Streamlit call ────────────────────────────────
 st.set_page_config(
-    page_title="FraudGuard Nigeria",
+    page_title="Jojo",
     page_icon="🛡️",
     layout="centered",
-    initial_sidebar_state="expanded",   # ← THIS was the sidebar bug. Always open.
+    initial_sidebar_state="expanded",  
 )
 
 # ── Load CSS ──────────────────────────────────────────────────────────────────
@@ -44,7 +33,7 @@ def get_groq_client() -> Groq:
 client = get_groq_client()
 
 # ── System prompt ─────────────────────────────────────────────────────────────
-SYSTEM_PROMPT = """You are FraudGuard Nigeria — an AI-powered fraud detection and awareness
+SYSTEM_PROMPT = """You are Jojo — an AI-powered fraud detection and awareness
 assistant built specifically to help Nigerians identify financial scams and AI-enabled fraud.
 You speak in plain, friendly, easy-to-understand English.
 
@@ -184,8 +173,8 @@ with st.sidebar:
 
     st.markdown("""
     <div class="sb-footer">
-      Built by Derek Chizogam · AISIP Cohort 1<br>
-      Powered by Groq AI · No data stored
+      Built by Derek Chizogam<br>
+       No data stored
     </div>
     """, unsafe_allow_html=True)
 
@@ -195,7 +184,7 @@ st.markdown("""
   <div class="hero-glow"></div>
   <div class="hero-icon-wrap">🛡️</div>
   <div class="hero-text">
-    <div class="hero-title">FraudGuard <span class="hero-ng">Nigeria</span></div>
+    <div class="hero-title">Jojo <span class="hero-ng">Nigeria</span></div>
     <div class="hero-sub">
       AI-powered scam detection · Free · No sign-up · Built for every Nigerian
     </div>
@@ -211,9 +200,9 @@ if not st.session_state.messages:
     st.session_state.messages.append({
         "role": "assistant",
         "content": (
-            "Hello! I am FraudGuard Nigeria — your personal fraud detection assistant.\n\n"
+            "Hello! I am Jojo — your personal fraud detection assistant.\n\n"
             "Paste or describe any suspicious message, phone call, job offer, or investment "
-            "and I will tell you honestly whether it is a scam — in plain language, for free.\n\n"
+            "and I will tell you honestly whether it is a scam, for free.\n\n"
             "How can I help you today?"
         ),
     })
@@ -224,7 +213,7 @@ for msg in st.session_state.messages:
         st.write(msg["content"])
 
 # ── Handle input ──────────────────────────────────────────────────────────────
-if prompt := st.chat_input("Paste or describe the suspicious message, call, or offer…"):
+if prompt := st.chat_input("Paste or describe the suspicious message, call or offer…"):
 
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
