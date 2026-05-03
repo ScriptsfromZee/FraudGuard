@@ -7,7 +7,7 @@ from groq import Groq
 
 # ── Page config (must be the FIRST Streamlit call in the file) ─────────────────
 st.set_page_config(
-    page_title="FraudGuard",
+    page_title="Jojo",
     page_icon="🛡️",
     layout="centered",
     initial_sidebar_state="expanded"
