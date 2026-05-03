@@ -1,5 +1,5 @@
 """
-FraudGuard Nigeria — app.py
+FraudGuard — app.py
 """
 
 import streamlit as st
@@ -164,7 +164,7 @@ st.markdown("""
 <div class="hero">
   <div class="hero-icon">🛡️</div>
   <div>
-    <p class="hero-title">FraudGuard Nigeria</p>
+    <p class="hero-title">FraudGuard</p>
     <p class="hero-sub">
       Your free AI-powered fraud detection assistant
       &nbsp;·&nbsp; No sign-up required &nbsp;·&nbsp; Always free
