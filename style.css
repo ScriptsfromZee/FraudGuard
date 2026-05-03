@@ -1,0 +1,195 @@
+/* ============================================================
+   FraudGuard Nigeria — style.css
+   Loaded by app.py via load_css()
+   Tested against: streamlit==1.35.0
+   ============================================================ */
+
+/* ── Google Font ─────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ── Global ──────────────────────────────────────────────── */
+html, body, [class*="css"] {
+    font-family: 'Inter', sans-serif;
+}
+
+/* ── Page background ─────────────────────────────────────── */
+.stApp {
+    background: #0A0F1E;
+}
+
+/* ── Hide Streamlit default chrome ───────────────────────── */
+#MainMenu, footer, header {
+    visibility: hidden;
+}
+
+/* ── Hero banner ─────────────────────────────────────────── */
+.hero {
+    background: linear-gradient(135deg, #0D1F3C 0%, #1A3A6B 100%);
+    border: 1px solid #1E3A6E;
+    border-radius: 16px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.hero-icon {
+    font-size: 52px;
+    flex-shrink: 0;
+}
+.hero-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin: 0 0 4px 0;
+    letter-spacing: -0.3px;
+}
+.hero-sub {
+    font-size: 14px;
+    color: #7EA8D8;
+    margin: 0;
+}
+
+/* ── Tip / alert bar ─────────────────────────────────────── */
+.alert-bar {
+    background: #0F2A1A;
+    border: 1px solid #1A5C34;
+    border-left: 4px solid #22C55E;
+    border-radius: 10px;
+    padding: 12px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #86EFAC;
+}
+
+/* ── Chat message bubbles ────────────────────────────────── */
+/*
+   NOTE: These selectors use Streamlit's internal data-testid
+   attributes. They work as of streamlit==1.35.0. If you ever
+   upgrade Streamlit and the chat bubbles lose their styling,
+   this is the first place to check.
+*/
+[data-testid="stChatMessage"] {
+    border-radius: 14px;
+    margin-bottom: 8px;
+    padding: 14px 18px !important;
+    border: 1px solid #1C2E47;
+}
+
+/* User bubble */
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
+    background: #0D1F3C;
+    border-color: #1E3A6E;
+}
+
+/* Assistant bubble */
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) {
+    background: #0F1929;
+    border-color: #1C2E47;
+}
+
+/* ── Chat input box ──────────────────────────────────────── */
+[data-testid="stChatInput"] {
+    border: 2px solid #1E3A6E !important;
+    border-radius: 14px !important;
+    background: #0D1F3C !important;
+    color: #E0E8F4 !important;
+    font-size: 15px !important;
+    padding: 14px 18px !important;
+}
+[data-testid="stChatInput"]:focus {
+    border-color: #3B82F6 !important;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+}
+
+/* ── Sidebar background ──────────────────────────────────── */
+[data-testid="stSidebar"] {
+    background: #0D1525 !important;
+    border-right: 1px solid #1C2E47;
+}
+
+/*
+   BUG FIX: The wildcard rule below uses !important to set a
+   default text colour for ALL Streamlit-generated elements
+   inside the sidebar (labels, spans, etc.).
+
+   The sidebar-card rules further down ALSO use !important so
+   they can override this wildcard for their specific elements.
+   Without !important on the card rules, the wildcard wins and
+   all sidebar card text renders as the same flat grey — which
+   was the bug in the previous version.
+*/
+[data-testid="stSidebar"] * {
+    color: #CBD5E8 !important;
+}
+
+/* ── Sidebar section cards ───────────────────────────────── */
+.sidebar-card {
+    background: #0F1F38;
+    border: 1px solid #1C3055;
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+}
+
+/* !important here beats the sidebar wildcard above */
+.sidebar-card h4 {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #4A9DFF !important;
+    margin: 0 0 10px 0;
+}
+
+/* !important here beats the sidebar wildcard above */
+.sidebar-card p,
+.sidebar-card li {
+    font-size: 13px;
+    color: #9BB4D4 !important;
+    line-height: 1.7;
+    margin: 0;
+}
+.sidebar-card ul {
+    padding-left: 16px;
+    margin: 0;
+}
+
+/* ── Model badge (shown under model dropdown) ────────────── */
+.model-badge {
+    display: inline-block;
+    background: #0A2240;
+    border: 1px solid #1E4080;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #60A5FA;
+    margin-bottom: 16px;
+    letter-spacing: 0.04em;
+}
+
+/* ── Selectbox override ──────────────────────────────────── */
+[data-testid="stSelectbox"] > div > div {
+    background: #0D1F3C !important;
+    border: 1px solid #1E3A6E !important;
+    border-radius: 8px !important;
+    color: #E0E8F4 !important;
+}
+
+/* ── Divider ─────────────────────────────────────────────── */
+hr {
+    border-color: #1C2E47 !important;
+}
+
+/* ── Custom scrollbar ────────────────────────────────────── */
+::-webkit-scrollbar {
+    width: 5px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #1C3055;
+    border-radius: 3px;
+}
