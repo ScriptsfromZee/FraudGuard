@@ -114,9 +114,9 @@ html, body, [class*="css"] {
    all sidebar card text renders as the same flat grey — which
    was the bug in the previous version.
 */
-[data-testid="stSidebar"] * {
+/*[data-testid="stSidebar"] * {
     color: #CBD5E8 !important;
-}
+}*/
 
 /* ── Sidebar section cards ───────────────────────────────── */
 .sidebar-card {
