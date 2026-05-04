@@ -1,12 +1,3 @@
-/* ================================================================
-   FraudGuard Nigeria — style.css  (Gold & Navy Edition)
-   Colour palette pulled from logo:
-     Gold  #C9A227  /  #E8C547  (shield border & checkmark)
-     Navy  #1A2856  /  #0D1635  (shield body)
-     Base  #06090F  (near-black background)
-   Tested: streamlit==1.57.0
-   ================================================================ */
-
 /* ── FONT ─────────────────────────────────────────────────────── */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 

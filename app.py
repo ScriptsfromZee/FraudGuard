@@ -6,7 +6,7 @@ from groq import Groq
 # ── Page config — must be the very first Streamlit call ───────────────────────
 st.set_page_config(
     page_title="Jojo",
-    page_icon="🛡️",
+    page_icon="logo_b64.png",  # base64-encoded logo (see below)
     layout="centered",
     initial_sidebar_state="expanded",   # sidebar always open on load
 )
