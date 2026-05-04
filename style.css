@@ -1,29 +1,52 @@
+/* ================================================================
+   FraudGuard Nigeria — style.css  (Gold & Navy Edition)
+   Colour palette pulled from logo:
+     Gold  #C9A227  /  #E8C547  (shield border & checkmark)
+     Navy  #1A2856  /  #0D1635  (shield body)
+     Base  #06090F  (near-black background)
+   Tested: streamlit==1.57.0
+   ================================================================ */
 
 /* ── FONT ─────────────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 html, body, [class*="css"] {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
-/* ── BACKGROUND ───────────────────────────────────────────────── */
+/* ── PAGE BACKGROUND ─────────────────────────────────────────── */
 .stApp {
     background:
-        radial-gradient(ellipse 80% 50% at 0% 0%,   rgba(0,212,170,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 40% at 100% 0%,  rgba(59,130,246,0.08) 0%, transparent 60%),
-        radial-gradient(ellipse 100% 60% at 50% 100%, rgba(0,212,170,0.04) 0%, transparent 60%),
-        #030A14;
+        radial-gradient(ellipse 70% 50% at 0% 0%,   rgba(201,162,39,0.07) 0%, transparent 55%),
+        radial-gradient(ellipse 60% 45% at 100% 0%,  rgba(26,40,86,0.4)   0%, transparent 55%),
+        radial-gradient(ellipse 80% 40% at 50% 100%, rgba(201,162,39,0.04) 0%, transparent 55%),
+        #06090F;
 }
 
-/* ── HIDE DEFAULT CHROME ──────────────────────────────────────── */
-footer                       { visibility: hidden; }
-[data-testid="stToolbar"]    { visibility: hidden; }
+/* ── STRIP STREAMLIT CHROME ───────────────────────────────────── */
+footer                    { visibility: hidden; }
+[data-testid="stToolbar"] { visibility: hidden; }
 
-/* Keep header visible — it hosts the sidebar ☰ toggle button */
+/* Header: transparent but present — needed for sidebar ☰ toggle */
 [data-testid="stHeader"] {
     background: transparent !important;
     border-bottom: none !important;
+}
+
+/* Make the ☰ toggle SVG icon visible against dark background */
+[data-testid="stHeader"] button svg,
+[data-testid="collapsedControl"] svg,
+[data-testid="stSidebarCollapseButton"] svg {
+    fill: #C9A227 !important;
+    color: #C9A227 !important;
+}
+
+[data-testid="stHeader"] button,
+[data-testid="collapsedControl"] button,
+[data-testid="stSidebarCollapseButton"] button {
+    background: transparent !important;
+    border: none !important;
 }
 
 /* ── HERO ─────────────────────────────────────────────────────── */
@@ -32,60 +55,61 @@ footer                       { visibility: hidden; }
     overflow: hidden;
     background: linear-gradient(
         135deg,
-        rgba(0,212,170,0.08) 0%,
-        rgba(0,0,0,0) 40%,
-        rgba(59,130,246,0.06) 100%
+        rgba(26,40,86,0.55)  0%,
+        rgba(6,9,15,0.3)     45%,
+        rgba(201,162,39,0.07) 100%
     );
-    border: 1px solid rgba(0,212,170,0.2);
+    border: 1px solid rgba(201,162,39,0.3);
     border-radius: 20px;
-    padding: 32px 36px;
+    padding: 30px 36px;
     margin-bottom: 28px;
     display: flex;
     align-items: center;
     gap: 24px;
 }
 
-/* top-left corner accent line */
+/* Gold top-left accent line */
 .hero::before {
     content: "";
     position: absolute;
     top: 0; left: 0;
-    width: 80px; height: 2px;
-    background: linear-gradient(90deg, #00D4AA, transparent);
-    border-radius: 2px;
+    width: 100px; height: 2px;
+    background: linear-gradient(90deg, #C9A227, transparent);
 }
 
+/* Subtle glow behind logo */
 .hero-glow {
     position: absolute;
-    top: -60px; left: -60px;
-    width: 220px; height: 220px;
-    background: radial-gradient(circle, rgba(0,212,170,0.12), transparent 70%);
+    top: -40px; left: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, rgba(201,162,39,0.12), transparent 70%);
     pointer-events: none;
 }
 
-.hero-icon-wrap {
-    font-size: 52px;
+.hero-logo {
+    width: 72px;
+    height: 72px;
+    object-fit: contain;
     flex-shrink: 0;
-    filter: drop-shadow(0 0 16px rgba(0,212,170,0.5));
+    filter: drop-shadow(0 0 18px rgba(201,162,39,0.5));
 }
 
 .hero-title {
     font-size: 30px;
     font-weight: 700;
-    letter-spacing: -0.8px;
-    color: #F0F6FF;
+    letter-spacing: -0.6px;
+    color: #F2ECD8;
     margin-bottom: 6px;
     line-height: 1;
 }
 
-.hero-ng {
-    color: #00D4AA;
+.hero-accent {
+    color: #C9A227;
 }
 
 .hero-sub {
     font-size: 14px;
-    font-weight: 400;
-    color: #5A7A9A;
+    color: #4A6080;
     letter-spacing: 0.01em;
 }
 
@@ -94,99 +118,114 @@ footer                       { visibility: hidden; }
     border-radius: 16px;
     padding: 18px 20px !important;
     margin-bottom: 10px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 [data-testid="stChatMessage"]:hover {
     transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+    box-shadow: 0 14px 36px rgba(0,0,0,0.45);
 }
 
-/* User bubble */
+/* User bubble — navy tint */
 [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
-    background: rgba(10, 25, 50, 0.7);
-    border: 1px solid rgba(59,130,246,0.25);
+    background: rgba(13,22,53,0.75);
+    border: 1px solid rgba(26,40,86,0.7);
 }
 
-/* Assistant bubble */
+/* Assistant bubble — gold tint */
 [data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) {
-    background: rgba(0, 18, 30, 0.75);
-    border: 1px solid rgba(0,212,170,0.18);
-    box-shadow: 0 0 30px rgba(0,212,170,0.05);
+    background: rgba(10,8,3,0.75);
+    border: 1px solid rgba(201,162,39,0.22);
+    box-shadow: 0 0 30px rgba(201,162,39,0.04);
 }
 
 /* ── CHAT INPUT ───────────────────────────────────────────────── */
 [data-testid="stChatInput"] {
-    background: rgba(5,15,30,0.9) !important;
-    border: 1px solid rgba(0,212,170,0.25) !important;
+    background: rgba(6,9,15,0.92) !important;
+    border: 1px solid rgba(201,162,39,0.3) !important;
     border-radius: 16px !important;
-    color: #D4E5F7 !important;
+    color: #E8E0CC !important;
     font-size: 15px !important;
     padding: 16px 20px !important;
     backdrop-filter: blur(10px) !important;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+    transition: border-color 0.2s, box-shadow 0.2s !important;
 }
 
 [data-testid="stChatInput"]:focus {
-    border-color: #00D4AA !important;
+    border-color: #C9A227 !important;
     box-shadow:
-        0 0 0 3px rgba(0,212,170,0.12),
-        0 0 40px rgba(0,212,170,0.15) !important;
+        0 0 0 3px rgba(201,162,39,0.12),
+        0 0 30px rgba(201,162,39,0.12) !important;
 }
 
 /* ── SIDEBAR SHELL ────────────────────────────────────────────── */
 [data-testid="stSidebar"] {
     background:
-        linear-gradient(180deg, #040D1A 0%, #030A14 100%) !important;
-    border-right: 1px solid rgba(0,212,170,0.1) !important;
+        linear-gradient(180deg, #08102A 0%, #060810 100%) !important;
+    border-right: 1px solid rgba(201,162,39,0.12) !important;
 }
 
-/* Reset all sidebar text to a readable default */
-[data-testid="stSidebar"] * {
-    color: #7A9BBE !important;
+/*
+   SIDEBAR TEXT — targeted selectors only, NO wildcard *.
+   The wildcard [data-testid="stSidebar"] * { color: !important }
+   was bleeding into Streamlit's internal SVG toggle buttons,
+   making the sidebar ☰ icon invisible. Fixed by targeting
+   specific element types instead.
+*/
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] span:not([data-testid]),
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] div.sb-label,
+[data-testid="stSidebar"] div.sb-meta,
+[data-testid="stSidebar"] div.sb-footer,
+[data-testid="stSidebar"] div.sb-item,
+[data-testid="stSidebar"] div.status-live {
+    color: #5A7090 !important;
 }
 
-/* ── SIDEBAR: BRAND BLOCK ─────────────────────────────────────── */
+/* ── SIDEBAR: BRAND ───────────────────────────────────────────── */
 .sb-brand {
     display: flex;
     align-items: center;
     gap: 14px;
-    padding: 4px 0 16px;
+    padding: 4px 0 14px;
 }
 
-.sb-shield {
-    font-size: 32px;
-    filter: drop-shadow(0 0 10px rgba(0,212,170,0.6));
+.sb-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 10px rgba(201,162,39,0.55));
 }
 
 .sb-title {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 700;
-    color: #F0F6FF !important;
-    letter-spacing: -0.3px;
+    color: #F2ECD8;
+    letter-spacing: -0.2px;
     line-height: 1;
 }
 
-.sb-sub {
-    font-size: 11px;
-    font-weight: 500;
-    color: #00D4AA !important;
-    letter-spacing: 0.15em;
+.sb-country {
+    font-size: 10px;
+    font-weight: 600;
+    color: #C9A227;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    margin-top: 3px;
+    margin-top: 4px;
 }
 
-/* ── SIDEBAR: STATUS DOT ──────────────────────────────────────── */
+/* ── SIDEBAR: STATUS ──────────────────────────────────────────── */
 .status-live {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    font-size: 11px;
+    font-size: 10px;
     font-weight: 500;
-    color: #00D4AA !important;
-    letter-spacing: 0.05em;
+    color: #C9A227 !important;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     margin-bottom: 4px;
 }
@@ -194,55 +233,55 @@ footer                       { visibility: hidden; }
 .status-live::before {
     content: "";
     display: inline-block;
-    width: 7px;
-    height: 7px;
-    background: #00D4AA;
+    width: 6px;
+    height: 6px;
+    background: #C9A227;
     border-radius: 50%;
-    box-shadow: 0 0 6px #00D4AA;
+    box-shadow: 0 0 6px rgba(201,162,39,0.8);
     animation: pulseDot 2s ease-in-out infinite;
 }
 
 @keyframes pulseDot {
-    0%, 100% { opacity: 0.4; transform: scale(0.9); }
+    0%, 100% { opacity: 0.3; transform: scale(0.85); }
     50%       { opacity: 1;   transform: scale(1.2); }
 }
 
 /* ── SIDEBAR: DIVIDER ─────────────────────────────────────────── */
 .sb-divider {
     height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(0,212,170,0.15), transparent);
-    margin: 14px 0;
+    background: linear-gradient(90deg, transparent, rgba(201,162,39,0.18), transparent);
+    margin: 12px 0;
 }
 
 /* ── SIDEBAR: SECTION LABEL ───────────────────────────────────── */
-.sb-section-label {
+.sb-label {
     font-size: 9px !important;
     font-weight: 700 !important;
-    letter-spacing: 0.18em !important;
-    color: #2A4A6A !important;
+    letter-spacing: 0.2em !important;
+    color: #2A3A5A !important;
     text-transform: uppercase !important;
-    margin-bottom: 10px !important;
+    margin: 0 0 8px 0 !important;
 }
 
 /* ── SIDEBAR: CARD ────────────────────────────────────────────── */
 .sb-card {
-    background: rgba(0,212,170,0.04);
-    border: 1px solid rgba(0,212,170,0.1);
+    background: rgba(201,162,39,0.03);
+    border: 1px solid rgba(201,162,39,0.1);
     border-radius: 12px;
-    padding: 14px;
+    padding: 12px 14px;
     margin-bottom: 4px;
     transition: border-color 0.2s ease;
 }
 
 .sb-card:hover {
-    border-color: rgba(0,212,170,0.22);
+    border-color: rgba(201,162,39,0.25);
 }
 
 .sb-item {
     font-size: 13px !important;
-    color: #5A7A9A !important;
+    color: #405070 !important;
     padding: 5px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
     line-height: 1.5;
 }
 
@@ -251,105 +290,105 @@ footer                       { visibility: hidden; }
     padding-bottom: 0;
 }
 
-/* ── SIDEBAR: EMERGENCY CARD ──────────────────────────────────── */
+/* ── SIDEBAR: EMERGENCY ───────────────────────────────────────── */
 .sb-emergency {
-    background: rgba(239,68,68,0.04) !important;
-    border-color: rgba(239,68,68,0.15) !important;
+    background: rgba(180,30,30,0.04) !important;
+    border-color: rgba(200,60,60,0.18) !important;
 }
 
-.sb-emergency-row {
+.sb-erow {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 5px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.03);
 }
 
-.sb-emergency-row:last-child { border-bottom: none; }
+.sb-erow:last-child { border-bottom: none; }
 
-.sb-emergency-label {
-    font-size: 10px !important;
-    font-weight: 700 !important;
-    color: #EF4444 !important;
+.sb-etag {
+    font-size: 10px;
+    font-weight: 700;
+    color: #C04040 !important;
     letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
-.sb-emergency-val {
-    font-size: 12px !important;
-    color: #7A9BBE !important;
+.sb-eval {
+    font-size: 12px;
+    color: #5A7090 !important;
 }
 
 /* ── SIDEBAR: MODEL BADGE ─────────────────────────────────────── */
 .model-badge {
     display: inline-block;
-    background: rgba(0,212,170,0.08);
-    border: 1px solid rgba(0,212,170,0.3);
+    background: rgba(201,162,39,0.07);
+    border: 1px solid rgba(201,162,39,0.35);
     border-radius: 6px;
     padding: 5px 12px;
-    font-size: 11px !important;
-    font-weight: 600 !important;
-    color: #00D4AA !important;
+    font-size: 11px;
+    font-weight: 600;
+    color: #C9A227 !important;
     letter-spacing: 0.03em;
     margin-top: 8px;
-    margin-bottom: 4px;
-    box-shadow: 0 0 12px rgba(0,212,170,0.15);
+    margin-bottom: 2px;
+    box-shadow: 0 0 10px rgba(201,162,39,0.12);
 }
 
-/* ── SIDEBAR: META + FOOTER ───────────────────────────────────── */
+/* ── SIDEBAR: META & FOOTER ───────────────────────────────────── */
 .sb-meta {
-    font-size: 12px !important;
-    color: #2A4A6A !important;
-    margin-bottom: 10px;
+    font-size: 12px;
+    color: #2A3A5A !important;
+    margin-bottom: 8px;
 }
 
 .sb-meta strong {
-    color: #00D4AA !important;
-    font-weight: 600 !important;
+    color: #C9A227 !important;
+    font-weight: 600;
 }
 
 .sb-footer {
-    font-size: 10px !important;
-    color: #1E3A5A !important;
-    line-height: 1.8;
-    margin-top: 12px;
-    padding-top: 12px;
-    border-top: 1px solid rgba(0,212,170,0.06);
+    font-size: 10px;
+    color: #1A2840 !important;
+    line-height: 1.9;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid rgba(201,162,39,0.06);
 }
 
-/* ── SIDEBAR: SELECTBOX OVERRIDE ──────────────────────────────── */
+/* ── SIDEBAR: SELECTBOX ───────────────────────────────────────── */
 [data-testid="stSidebar"] [data-testid="stSelectbox"] > div > div {
-    background: rgba(0,212,170,0.05) !important;
-    border: 1px solid rgba(0,212,170,0.2) !important;
+    background: rgba(201,162,39,0.04) !important;
+    border: 1px solid rgba(201,162,39,0.22) !important;
     border-radius: 10px !important;
-    color: #D4E5F7 !important;
+    color: #C9B86A !important;
     font-size: 13px !important;
 }
 
 /* ── SIDEBAR: CLEAR BUTTON ────────────────────────────────────── */
 [data-testid="stSidebar"] [data-testid="stButton"] > button {
-    background: rgba(239,68,68,0.07) !important;
-    border: 1px solid rgba(239,68,68,0.2) !important;
+    background: rgba(180,30,30,0.06) !important;
+    border: 1px solid rgba(180,30,30,0.22) !important;
     border-radius: 10px !important;
-    color: #EF4444 !important;
+    color: #C04040 !important;
     font-size: 13px !important;
     font-weight: 500 !important;
-    transition: background 0.2s ease, border-color 0.2s ease !important;
+    transition: background 0.2s, border-color 0.2s !important;
 }
 
 [data-testid="stSidebar"] [data-testid="stButton"] > button:hover {
-    background: rgba(239,68,68,0.14) !important;
-    border-color: rgba(239,68,68,0.4) !important;
+    background: rgba(180,30,30,0.13) !important;
+    border-color: rgba(180,30,30,0.45) !important;
 }
 
-/* ── SPINNER TEXT ─────────────────────────────────────────────── */
+/* ── SPINNER ──────────────────────────────────────────────────── */
 [data-testid="stSpinner"] p {
-    color: #00D4AA !important;
+    color: #C9A227 !important;
     font-size: 13px !important;
 }
 
 /* ── SCROLLBAR ────────────────────────────────────────────────── */
 ::-webkit-scrollbar       { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(0,212,170,0.2); border-radius: 10px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(0,212,170,0.4); }
+::-webkit-scrollbar-thumb { background: rgba(201,162,39,0.25); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(201,162,39,0.5); }
