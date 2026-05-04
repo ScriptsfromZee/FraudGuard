@@ -177,7 +177,7 @@ st.markdown(f"""
   <div class="hero-glow"></div>
   <img src="{LOGO_SRC}" class="hero-logo" alt="Jojo"/>
   <div>
-    <div class="hero-title">Jojo <span class="hero-accent">Nigeria</span></div>
+    <div class="hero-title">Jojo </div>
     <div class="hero-sub">
       AI-powered scam detection &nbsp;·&nbsp; Free &nbsp;·&nbsp;
       No sign-up &nbsp;·&nbsp; Built for every Nigerian
