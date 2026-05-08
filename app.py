@@ -161,17 +161,22 @@ with st.sidebar:
 # ─────────────────────────────────────────────────────────────
 # HERO
 # ─────────────────────────────────────────────────────────────
-st.markdown(f"""
+st.markdown("""
 <div class="hero">
-    <img src="{LOGO_SRC}" class="hero-logo"/>
+
+    <img src="https://cdn-icons-png.flaticon.com/512/4712/4712027.png"
+         class="hero-logo">
 
     <div>
-        <div class="hero-title">Jojo</div>
+        <div class="hero-title">
+            Jojo<span class="hero-accent">.</span>
+        </div>
 
         <div class="hero-sub">
             AI-powered scam detection for Nigerians
         </div>
     </div>
+
 </div>
 """, unsafe_allow_html=True)
 
