@@ -1,6 +1,6 @@
 **Jojo is a free AI-powered assistant that helps Nigerians identify financial scams in plain language — no sign-up, no payment, no technical knowledge required.**
 
-**Try Jojo at(https://bestfraudguard.streamlit.app)**
+**Try Jojo at (https://bestfraudguard.streamlit.app)**
 
 ## What is Jojo?
 
