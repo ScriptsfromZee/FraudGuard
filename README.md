@@ -6,7 +6,7 @@
 
 Nigeria lost over **₦9.5 billion** to technology-enabled fraud in 2023. Criminal networks 
 are now using AI tools — deepfake videos of celebrities, voice cloning software that 
-impersonates bank officials and AI-generated fake documents — to target ordinary 
+impersonates bank officials and AI-generated fake documents to target ordinary 
 Nigerians, especially the elderly, market traders and young graduates desperate for work.
 
 Jojo exists to fight back.
