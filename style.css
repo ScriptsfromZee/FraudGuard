@@ -35,12 +35,7 @@ html, body, [class*="css"] {
 footer                     { visibility: hidden; }
 [data-testid="stToolbar"]  { visibility: hidden; }
 
-/* ── HEADER — transparent but PRESENT ─────────────────────────
-   Critical: do NOT hide or set display:none on the header.
-   The sidebar hamburger (☰) toggle lives inside it.
-   We make it transparent so it blends with the dark theme
-   while remaining fully interactive.
-   ──────────────────────────────────────────────────────────── */
+/* ── HEADER — transparent but PRESENT ───────────────────────── */
 [data-testid="stHeader"] {
     background: rgba(6,9,15,0.8) !important;
     backdrop-filter: blur(16px);
@@ -122,7 +117,6 @@ button[kind="header"] svg,
     color: #5A7090 !important;
     margin: 0;
 }
-
 
 /* ── SIDEBAR: BRAND BLOCK ─────────────────────────────────────── */
 .sb-brand {
