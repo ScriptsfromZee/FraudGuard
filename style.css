@@ -1,107 +1,41 @@
 /* ================================================================
-   Jojo — style.css  |  Premium Gold & Navy Edition
-   Colour palette extracted from the shield logo:
-     Gold    #C9A227  /  #E8C547  (shield border & checkmark)
-     Navy    #0D1635  /  #08102A  (shield body)
-     Base    #06090F              (near-black background)
-     Warm    #F2ECD8              (primary text)
-   Tested: streamlit==1.57.0
-   ================================================================ */
-
-
-/* ── GOOGLE FONT ──────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-
-
-/* ── GLOBAL RESET ─────────────────────────────────────────────── */
-html, body, [class*="css"] {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-
-/* ── PAGE BACKGROUND ──────────────────────────────────────────── */
-.stApp {
-    background:
-        radial-gradient(ellipse 65% 55% at 0% 0%,
-            rgba(201,162,39,0.09) 0%, transparent 55%),
-        radial-gradient(ellipse 55% 50% at 100% 0%,
-            rgba(26,40,86,0.45) 0%, transparent 55%),
-        radial-gradient(ellipse 75% 45% at 50% 100%,
-            rgba(201,162,39,0.05) 0%, transparent 55%),
-        #06090F;
-    min-height: 100vh;
-}
-
-
-/* ================================================================
    STREAMLIT CHROME OVERRIDES
    ================================================================ */
 
-/* Hide footer and deploy toolbar */
-footer                     { visibility: hidden; }
-[data-testid="stToolbar"]  { visibility: hidden; }
+/* Hide Streamlit footer */
+footer {
+    visibility: hidden;
+}
 
-/* ── HEADER — transparent but PRESENT ─────────────────────────
-   Critical: do NOT hide or set display:none on the header.
-   The sidebar hamburger (☰) toggle lives inside it.
-   We make it transparent so it blends with the dark theme
-   while remaining fully interactive.
-   ──────────────────────────────────────────────────────────── */
+/* Hide top-right toolbar */
+[data-testid="stToolbar"] {
+    visibility: hidden;
+}
+
+/* ================================================================
+   HEADER
+   Keep header visible so sidebar toggle works
+   ================================================================ */
+
 [data-testid="stHeader"] {
-    background: rgba(6,9,15,0.8) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(201,162,39,0.1);
-    height: 3.2rem;
-    z-index: 999999 !important;
-    pointer-events: all !important;
-    visibility: visible !important;
-    display: flex !important;
-}
+    background: rgba(6, 9, 15, 0.82) !important;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 
-/* ── SIDEBAR TOGGLE — the button that opens/closes the sidebar ──
-   This is the fix for the sidebar disappearing and the toggle
-   becoming invisible. We explicitly force visibility and colour.
-   Targets every selector Streamlit uses across versions.
-   ──────────────────────────────────────────────────────────── */
-button[kind="header"],
-[data-testid="collapsedControl"],
-[data-testid="stSidebarCollapseButton"] {
+    border-bottom: 1px solid rgba(201,162,39,0.10);
+
+    height: 3.2rem !important;
+
+    position: sticky !important;
+    top: 0 !important;
+
+    z-index: 999 !important;
+
+    visibility: visible !important;
     opacity: 1 !important;
-    visibility: visible !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    background: rgba(201,162,39,0.06) !important;
-    border: 1px solid rgba(201,162,39,0.15) !important;
-    border-radius: 10px !important;
-    padding: 6px !important;
-    cursor: pointer !important;
-    z-index: 9999999 !important;
-    transition: background 0.2s ease, border-color 0.2s ease !important;
-}
 
-button[kind="header"]:hover,
-[data-testid="collapsedControl"]:hover,
-[data-testid="stSidebarCollapseButton"]:hover {
-    background: rgba(201,162,39,0.14) !important;
-    border-color: rgba(201,162,39,0.4) !important;
+    pointer-events: auto !important;
 }
-
-/* Force the SVG icon inside the toggle to be gold and visible */
-button[kind="header"] svg,
-[data-testid="collapsedControl"] svg,
-[data-testid="stSidebarCollapseButton"] svg {
-    fill: #C9A227 !important;
-    color: #C9A227 !important;
-    width: 1.2rem !important;
-    height: 1.2rem !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-}
-
 
 /* ================================================================
    SIDEBAR
@@ -109,657 +43,113 @@ button[kind="header"] svg,
 
 [data-testid="stSidebar"] {
     background:
-        linear-gradient(180deg, #08102A 0%, #06090F 100%) !important;
+        linear-gradient(
+            180deg,
+            #08102A 0%,
+            #06090F 100%
+        ) !important;
+
     border-right: 1px solid rgba(201,162,39,0.14) !important;
+
     box-shadow: 4px 0 32px rgba(0,0,0,0.5);
+
+    z-index: 998 !important;
 }
 
-/* Padding inside sidebar content area */
+/* Sidebar inner content */
 [data-testid="stSidebarContent"] {
     padding: 1rem 1rem 2rem 1rem;
 }
 
-/* ── SIDEBAR TEXT — targeted selectors ONLY (no wildcard *)
-   The wildcard [data-testid="stSidebar"] * { color: !important }
-   bleeds into Streamlit's SVG icons and breaks the toggle button.
-   We target only real text elements instead.
-   ──────────────────────────────────────────────────────────── */
-[data-testid="stSidebar"] p,
-[data-testid="stSidebar"] label,
-[data-testid="stSidebar"] .stMarkdown p {
-    color: #5A7090 !important;
-    margin: 0;
-}
-
-
-/* ── SIDEBAR: BRAND BLOCK ─────────────────────────────────────── */
-.sb-brand {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    padding: 4px 0 16px 0;
-}
-
-.sb-logo {
-    width: 52px;
-    height: 52px;
-    object-fit: contain;
-    border-radius: 12px;
-    filter:
-        drop-shadow(0 0 14px rgba(201,162,39,0.6))
-        drop-shadow(0 4px 8px rgba(0,0,0,0.5));
-    flex-shrink: 0;
-    transition: transform 0.3s ease, filter 0.3s ease;
-}
-
-.sb-logo:hover {
-    transform: scale(1.06) rotate(-2deg);
-    filter:
-        drop-shadow(0 0 22px rgba(201,162,39,0.85))
-        drop-shadow(0 4px 12px rgba(0,0,0,0.6));
-}
-
-/* Emoji fallback when logo is not available */
-.logo-emoji {
-    font-size: 44px;
-    line-height: 1;
-    flex-shrink: 0;
-    filter: drop-shadow(0 0 10px rgba(201,162,39,0.5));
-}
-
-.sb-title {
-    font-size: 20px;
-    font-weight: 800;
-    color: #F2ECD8 !important;
-    letter-spacing: -0.4px;
-    line-height: 1;
-    margin-bottom: 3px;
-}
-
-.sb-tagline {
-    font-size: 10px;
-    font-weight: 600;
-    color: #C9A227 !important;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-}
-
-
-/* ── SIDEBAR: STATUS DOT ──────────────────────────────────────── */
-.status-live {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 10px;
-    font-weight: 600;
-    color: #22C55E !important;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 2px;
-}
-
-.status-live::before {
-    content: "";
-    display: inline-block;
-    width: 7px;
-    height: 7px;
-    background: #22C55E;
-    border-radius: 50%;
-    box-shadow: 0 0 0 2px rgba(34,197,94,0.25), 0 0 10px rgba(34,197,94,0.7);
-    animation: pulseDot 2.2s ease-in-out infinite;
-    flex-shrink: 0;
-}
-
-@keyframes pulseDot {
-    0%, 100% { opacity: 0.4; transform: scale(0.85); }
-    50%       { opacity: 1;   transform: scale(1.25); }
-}
-
-
-/* ── SIDEBAR: DIVIDER ─────────────────────────────────────────── */
-.sb-divider {
-    height: 1px;
-    background: linear-gradient(
-        90deg,
-        transparent 0%,
-        rgba(201,162,39,0.22) 30%,
-        rgba(201,162,39,0.22) 70%,
-        transparent 100%
-    );
-    margin: 14px 0;
-}
-
-
-/* ── SIDEBAR: SECTION LABEL ───────────────────────────────────── */
-.sb-label {
-    font-size: 9px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.22em !important;
-    color: #2A3A5A !important;
-    text-transform: uppercase !important;
-    margin: 0 0 10px 0 !important;
-    display: block;
-}
-
-
-/* ── SIDEBAR: CARD ────────────────────────────────────────────── */
-.sb-card {
-    background: rgba(201,162,39,0.03);
-    border: 1px solid rgba(201,162,39,0.12);
-    border-radius: 14px;
-    padding: 14px 16px;
-    margin-bottom: 4px;
-    transition: border-color 0.25s ease, background 0.25s ease,
-                box-shadow 0.25s ease;
-}
-
-.sb-card:hover {
-    background: rgba(201,162,39,0.055);
-    border-color: rgba(201,162,39,0.28);
-    box-shadow: 0 0 20px rgba(201,162,39,0.08);
-}
-
-.sb-item {
-    font-size: 13px !important;
-    color: #405070 !important;
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-    line-height: 1.5;
-    display: block;
-    transition: color 0.2s ease;
-}
-
-.sb-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.sb-item:hover {
-    color: #6A8BAA !important;
-}
-
-
-/* ── SIDEBAR: EMERGENCY CARD ──────────────────────────────────── */
-.sb-emergency {
-    background: rgba(180,40,40,0.04) !important;
-    border-color: rgba(180,40,40,0.2) !important;
-}
-
-.sb-emergency:hover {
-    background: rgba(180,40,40,0.07) !important;
-    border-color: rgba(180,40,40,0.35) !important;
-    box-shadow: 0 0 20px rgba(180,40,40,0.08) !important;
-}
-
-.sb-erow {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 6px 0;
-    border-bottom: 1px solid rgba(255,255,255,0.04);
-}
-
-.sb-erow:last-child {
-    border-bottom: none;
-}
-
-.sb-etag {
-    font-size: 10px;
-    font-weight: 700;
-    color: #D04040 !important;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-}
-
-.sb-eval {
-    font-size: 12px;
-    color: #5A7090 !important;
-    font-weight: 400;
-}
-
-
-/* ── SIDEBAR: MODEL BADGE ─────────────────────────────────────── */
-.model-badge {
-    display: inline-block;
-    background: rgba(201,162,39,0.08);
-    border: 1px solid rgba(201,162,39,0.35);
-    border-radius: 8px;
-    padding: 6px 14px;
-    font-size: 11px;
-    font-weight: 700;
-    color: #C9A227 !important;
-    letter-spacing: 0.04em;
-    margin-top: 10px;
-    margin-bottom: 2px;
-    box-shadow: 0 0 14px rgba(201,162,39,0.15);
-    transition: box-shadow 0.2s ease;
-}
-
-.model-badge:hover {
-    box-shadow: 0 0 22px rgba(201,162,39,0.28);
-}
-
-
-/* ── SIDEBAR: META & FOOTER ───────────────────────────────────── */
-.sb-meta {
-    font-size: 12px;
-    color: #2A3A5A !important;
-    margin-bottom: 10px;
-    display: block;
-}
-
-.sb-meta strong {
-    color: #C9A227 !important;
-    font-weight: 700;
-}
-
-.sb-footer {
-    font-size: 10px;
-    color: #1A2840 !important;
-    line-height: 1.9;
-    margin-top: 14px;
-    padding-top: 14px;
-    border-top: 1px solid rgba(201,162,39,0.08);
-}
-
-
-/* ── SIDEBAR: SELECTBOX ───────────────────────────────────────── */
-[data-testid="stSidebar"] [data-testid="stSelectbox"] > div > div {
-    background: rgba(201,162,39,0.05) !important;
-    border: 1px solid rgba(201,162,39,0.22) !important;
-    border-radius: 12px !important;
-    color: #C9B86A !important;
-    font-size: 13px !important;
-    transition: border-color 0.2s ease !important;
-}
-
-[data-testid="stSidebar"] [data-testid="stSelectbox"] > div > div:hover {
-    border-color: rgba(201,162,39,0.45) !important;
-}
-
-
-/* ── SIDEBAR: CLEAR BUTTON ────────────────────────────────────── */
-[data-testid="stSidebar"] [data-testid="stBaseButton-secondary"],
-[data-testid="stSidebar"] [data-testid="stButton"] > button {
-    background: rgba(180,40,40,0.07) !important;
-    border: 1px solid rgba(180,40,40,0.25) !important;
-    border-radius: 12px !important;
-    color: #D04040 !important;
-    font-size: 13px !important;
-    font-weight: 500 !important;
-    width: 100% !important;
-    padding: 10px !important;
-    transition: background 0.2s ease, border-color 0.2s ease,
-                transform 0.15s ease !important;
-}
-
-[data-testid="stSidebar"] [data-testid="stBaseButton-secondary"]:hover,
-[data-testid="stSidebar"] [data-testid="stButton"] > button:hover {
-    background: rgba(180,40,40,0.14) !important;
-    border-color: rgba(180,40,40,0.45) !important;
-    transform: translateY(-1px) !important;
-}
-
-
 /* ================================================================
-   HERO BANNER
+   SIDEBAR TOGGLE BUTTON
+   THIS FIXES THE HAMBURGER MENU
    ================================================================ */
-.hero {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(
-        135deg,
-        rgba(26,40,86,0.6)    0%,
-        rgba(6,9,15,0.25)     45%,
-        rgba(201,162,39,0.08) 100%
-    );
-    border: 1px solid rgba(201,162,39,0.28);
-    border-radius: 22px;
-    padding: 32px 38px;
-    margin-bottom: 28px;
-    display: flex;
-    align-items: center;
-    gap: 26px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    box-shadow:
-        0 1px 0 rgba(201,162,39,0.15) inset,
-        0 24px 60px rgba(0,0,0,0.45);
-    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+
+/* Main toggle container */
+button[kind="header"],
+[data-testid="collapsedControl"] {
+    display: flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 42px !important;
+    height: 42px !important;
+
+    border-radius: 12px !important;
+
+    background: rgba(201,162,39,0.08) !important;
+    border: 1px solid rgba(201,162,39,0.18) !important;
+
+    cursor: pointer !important;
+
+    z-index: 999999 !important;
+
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.15s ease !important;
 }
 
-.hero:hover {
-    border-color: rgba(201,162,39,0.42);
-    box-shadow:
-        0 1px 0 rgba(201,162,39,0.2) inset,
-        0 28px 70px rgba(0,0,0,0.5),
-        0 0 60px rgba(201,162,39,0.06);
+/* Hover */
+button[kind="header"]:hover,
+[data-testid="collapsedControl"]:hover {
+    background: rgba(201,162,39,0.16) !important;
+    border-color: rgba(201,162,39,0.40) !important;
+
+    transform: scale(1.03);
 }
 
-/* Gold accent line — top-left corner */
-.hero::before {
-    content: "";
-    position: absolute;
-    top: 0; left: 0;
-    width: 120px; height: 2px;
-    background: linear-gradient(90deg, #C9A227, transparent);
-    border-radius: 0 0 2px 0;
-}
-
-/* Bottom-right corner accent */
-.hero::after {
-    content: "";
-    position: absolute;
-    bottom: 0; right: 0;
-    width: 80px; height: 2px;
-    background: linear-gradient(270deg, rgba(201,162,39,0.4), transparent);
-}
-
-/* Radial glow behind the logo */
-.hero-glow {
-    position: absolute;
-    top: -50px; left: -50px;
-    width: 240px; height: 240px;
-    background: radial-gradient(
-        circle,
-        rgba(201,162,39,0.14) 0%,
-        transparent 70%
-    );
-    pointer-events: none;
-    animation: heroGlow 4s ease-in-out infinite;
-}
-
-@keyframes heroGlow {
-    0%, 100% { opacity: 0.7; transform: scale(1); }
-    50%       { opacity: 1;   transform: scale(1.08); }
-}
-
-.hero-logo {
-    width: 80px;
-    height: 80px;
-    object-fit: contain;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-    filter:
-        drop-shadow(0 0 22px rgba(201,162,39,0.55))
-        drop-shadow(0 8px 16px rgba(0,0,0,0.6));
-    transition: transform 0.4s ease, filter 0.4s ease;
-    animation: logoFloat 6s ease-in-out infinite;
-}
-
-@keyframes logoFloat {
-    0%, 100% { transform: translateY(0px) rotate(-1deg); }
-    50%       { transform: translateY(-6px) rotate(1deg); }
-}
-
-.hero-logo:hover {
-    filter:
-        drop-shadow(0 0 32px rgba(201,162,39,0.8))
-        drop-shadow(0 8px 20px rgba(0,0,0,0.7));
-    animation-play-state: paused;
-    transform: scale(1.08) rotate(0deg);
-}
-
-/* Emoji fallback sizing in hero */
-.hero .logo-emoji {
-    font-size: 72px;
-    line-height: 1;
-    flex-shrink: 0;
-    position: relative;
-    z-index: 1;
-    filter: drop-shadow(0 0 16px rgba(201,162,39,0.5));
-    animation: logoFloat 6s ease-in-out infinite;
-}
-
-.hero-title {
-    font-size: 34px;
-    font-weight: 800;
-    color: #F2ECD8;
-    letter-spacing: -0.8px;
-    line-height: 1;
-    margin-bottom: 8px;
-}
-
-.hero-accent {
-    color: #C9A227;
-}
-
-.hero-sub {
-    font-size: 14px;
-    font-weight: 400;
-    color: #4A6080;
-    letter-spacing: 0.01em;
-    line-height: 1.5;
-}
-
-
-/* ================================================================
-   CHAT MESSAGES
-   ================================================================ */
-[data-testid="stChatMessage"] {
-    border-radius: 18px;
-    padding: 18px 22px !important;
-    margin-bottom: 12px;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    transition: transform 0.22s ease, box-shadow 0.22s ease,
-                border-color 0.22s ease;
-    position: relative;
-}
-
-[data-testid="stChatMessage"]:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(0,0,0,0.5);
-}
-
-/* User bubble — deep navy tint */
-[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]) {
-    background: rgba(13,22,53,0.78);
-    border: 1px solid rgba(26,40,86,0.75);
-}
-
-[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]):hover {
-    border-color: rgba(60,90,160,0.5);
-}
-
-/* Assistant bubble — warm dark with gold tint */
-[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]) {
-    background: rgba(10,8,4,0.8);
-    border: 1px solid rgba(201,162,39,0.22);
-    box-shadow: 0 0 30px rgba(201,162,39,0.04);
-}
-
-[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-assistant"]):hover {
-    border-color: rgba(201,162,39,0.38);
-    box-shadow: 0 12px 36px rgba(0,0,0,0.5), 0 0 30px rgba(201,162,39,0.08);
-}
-
-/* Message text colour */
-[data-testid="stChatMessage"] p,
-[data-testid="stChatMessage"] .stMarkdown p {
-    color: #D8D0C0 !important;
-    font-size: 15px;
-    line-height: 1.75;
-}
-
-/* Avatar icons */
-[data-testid="chatAvatarIcon-user"] svg,
-[data-testid="chatAvatarIcon-assistant"] svg {
+/* SVG icon */
+button[kind="header"] svg,
+[data-testid="collapsedControl"] svg {
     color: #C9A227 !important;
     fill: #C9A227 !important;
-}
 
+    width: 20px !important;
+    height: 20px !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+}
 
 /* ================================================================
-   CHAT INPUT
+   FIX COLLAPSED SIDEBAR WIDTH
    ================================================================ */
-[data-testid="stChatInput"] {
-    background: rgba(6,9,15,0.92) !important;
-    border: 1px solid rgba(201,162,39,0.28) !important;
-    border-radius: 18px !important;
-    padding: 16px 20px !important;
-    backdrop-filter: blur(14px) !important;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
-    transition: border-color 0.25s ease, box-shadow 0.25s ease !important;
-}
 
-[data-testid="stChatInput"]:focus-within {
-    border-color: #C9A227 !important;
-    box-shadow:
-        0 0 0 3px rgba(201,162,39,0.14),
-        0 0 30px rgba(201,162,39,0.14),
-        0 8px 32px rgba(0,0,0,0.5) !important;
+section[data-testid="stSidebar"][aria-expanded="false"] {
+    min-width: 4rem !important;
+    max-width: 4rem !important;
 }
-
-/* Input text */
-[data-testid="stChatInput"] textarea {
-    color: #E8E0CC !important;
-    font-size: 15px !important;
-    font-family: 'Inter', sans-serif !important;
-    caret-color: #C9A227;
-}
-
-/* Placeholder text */
-[data-testid="stChatInput"] textarea::placeholder {
-    color: rgba(90,112,144,0.7) !important;
-}
-
-/* Send button */
-[data-testid="stChatInputSubmitButton"] button {
-    background: rgba(201,162,39,0.12) !important;
-    border: 1px solid rgba(201,162,39,0.3) !important;
-    border-radius: 12px !important;
-    color: #C9A227 !important;
-    transition: background 0.2s ease, border-color 0.2s ease,
-                transform 0.15s ease !important;
-}
-
-[data-testid="stChatInputSubmitButton"] button:hover {
-    background: rgba(201,162,39,0.22) !important;
-    border-color: rgba(201,162,39,0.55) !important;
-    transform: scale(1.06) !important;
-}
-
 
 /* ================================================================
-   SPINNER
+   SIDEBAR TEXT
    ================================================================ */
-[data-testid="stSpinner"] p,
-[data-testid="stSpinner"] span {
-    color: #C9A227 !important;
-    font-size: 13px !important;
-}
 
-div[data-testid="stSpinner"] > div {
-    border-top-color: #C9A227 !important;
+[data-testid="stSidebar"] p,
+[data-testid="stSidebar"] label,
+[data-testid="stSidebar"] span,
+[data-testid="stSidebar"] .stMarkdown {
+    color: #5A7090 !important;
 }
-
 
 /* ================================================================
-   ALERTS / ERRORS / WARNINGS (from Streamlit st.error / st.warning)
+   MOBILE FIX
    ================================================================ */
-[data-testid="stAlert"] {
-    border-radius: 14px !important;
-    border-left-width: 4px !important;
-    backdrop-filter: blur(8px);
-}
 
-[data-testid="stAlert"][data-baseweb="notification"] {
-    background: rgba(180,40,40,0.07) !important;
-    border-color: rgba(180,40,40,0.5) !important;
-}
-
-
-/* ================================================================
-   SCROLLBAR
-   ================================================================ */
-::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-}
-
-::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-    background: rgba(201,162,39,0.28);
-    border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(201,162,39,0.52);
-}
-
-
-/* ================================================================
-   SELECTION HIGHLIGHT
-   ================================================================ */
-::selection {
-    background: rgba(201,162,39,0.28);
-    color: #F2ECD8;
-}
-
-
-/* ================================================================
-   MOBILE RESPONSIVE
-   ================================================================ */
 @media (max-width: 768px) {
-
-    .hero {
-        flex-direction: column;
-        text-align: center;
-        padding: 26px 20px;
-        gap: 18px;
-    }
-
-    .hero-logo,
-    .hero .logo-emoji {
-        width: 64px;
-        height: 64px;
-        font-size: 60px;
-    }
-
-    .hero-title {
-        font-size: 28px;
-    }
-
-    .hero-sub {
-        font-size: 13px;
-    }
 
     [data-testid="stSidebar"] {
         min-width: 280px !important;
         max-width: 300px !important;
     }
 
-    .sb-logo {
-        width: 44px;
-        height: 44px;
-    }
-
-    .sb-title {
-        font-size: 17px;
-    }
-
-    [data-testid="stChatMessage"] {
-        padding: 14px 16px !important;
-    }
-}
-
-@media (max-width: 480px) {
-
-    .hero {
-        padding: 22px 16px;
-        border-radius: 16px;
-    }
-
-    .hero-title {
-        font-size: 24px;
-    }
-
-    [data-testid="stChatInput"] {
-        border-radius: 14px !important;
+    button[kind="header"],
+    [data-testid="collapsedControl"] {
+        width: 40px !important;
+        height: 40px !important;
     }
 }
