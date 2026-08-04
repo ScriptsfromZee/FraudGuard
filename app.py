@@ -366,6 +366,6 @@ if prompt := st.chat_input("Paste or describe a suspicious message, call, or off
 
         st.write(reply)
 
-    # Only append if there is a reply to save
+    # Only append if there is a reply to  save
     if reply:
         st.session_state.messages.append({"role": "assistant", "content": reply})
