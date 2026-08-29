@@ -253,6 +253,11 @@ if prompt := st.chat_input("Paste or describe a suspicious message, call, or off
                     )
 
             except genai_errors.APIError as exc:
+                # TEMP DEBUG: prints the real error to Streamlit Cloud's app
+                # logs (Manage app → Logs) without showing it to end users.
+                # Remove this print once the Gemini switch is confirmed working.
+                print(f"[Jojo DEBUG] Gemini APIError code={exc.code}: {exc}")
+
                 if exc.code == 429:
                     reply = (
                         "I am receiving too many requests right now — please wait "
@@ -276,7 +281,9 @@ if prompt := st.chat_input("Paste or describe a suspicious message, call, or off
                     reply = (
                         "Something went wrong on my end. Please try again in a moment."
                     )
-            except Exception:
+            except Exception as exc:
+                # TEMP DEBUG — see comment above.
+                print(f"[Jojo DEBUG] Unexpected error: {type(exc).__name__}: {exc}")
                 reply = (
                     "Something went wrong on my end. Please try again in a moment."
                 )
