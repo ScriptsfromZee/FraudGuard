@@ -349,7 +349,7 @@ with col2:
 
 st.markdown("""
 <div class="sb-footer">
-  Built by Derek Chizogam · AISIP Cohort 1<br>
+  Built by Derek Chizogam <br>
   Powered by Gemini AI · Always free<br>
   No data stored or shared
 </div>
