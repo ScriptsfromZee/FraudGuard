@@ -253,39 +253,21 @@ if prompt := st.chat_input("Paste or describe a suspicious message, call, or off
                     )
 
             except genai_errors.APIError as exc:
-                # TEMP DEBUG: prints the real error to Streamlit Cloud's app
-                # logs (Manage app → Logs) without showing it to end users.
-                # Remove this print once the Gemini switch is confirmed working.
-                print(f"[Jojo DEBUG] Gemini APIError code={exc.code}: {exc}")
-
-                if exc.code == 429:
-                    reply = (
-                        "I am receiving too many requests right now — please wait "
-                        "about 30 seconds and try again."
-                    )
-                elif exc.code in (401, 403):
-                    reply = (
-                        "Authentication failed — the API key appears to be invalid.\n\n"
-                        "Please check **App Settings → Secrets** and verify that "
-                        "`GEMINI_API_KEY` is correct."
-                    )
-                elif exc.code == 404:
-                    # This means MODEL_ID in the code is stale (Google retired it).
-                    # Not something an end user can fix — surfaced plainly so the
-                    # developer notices it in logs/screenshots.
-                    reply = (
-                        "Jojo's AI engine is temporarily unavailable — the team has "
-                        "been notified. Please try again shortly."
-                    )
-                else:
-                    reply = (
-                        "Something went wrong on my end. Please try again in a moment."
-                    )
+                # TEMP DEBUG: shows the real error directly in the chat so we
+                # can diagnose without relying on the cloud log viewer.
+                # Remove this block once the Gemini switch is confirmed working —
+                # real users should never see raw error text.
+                reply = (
+                    f"⚠️ DEBUG — Gemini APIError\n\n"
+                    f"code: `{exc.code}`\n\n"
+                    f"message: `{exc}`"
+                )
             except Exception as exc:
                 # TEMP DEBUG — see comment above.
-                print(f"[Jojo DEBUG] Unexpected error: {type(exc).__name__}: {exc}")
                 reply = (
-                    "Something went wrong on my end. Please try again in a moment."
+                    f"⚠️ DEBUG — Unexpected error\n\n"
+                    f"type: `{type(exc).__name__}`\n\n"
+                    f"message: `{exc}`"
                 )
 
         st.write(reply)
