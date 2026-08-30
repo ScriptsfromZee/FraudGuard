@@ -1,5 +1,5 @@
 /* ── GOOGLE FONT ──────────────────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@700;800&display=swap');
 
 
 /* ── GLOBAL RESET ─────────────────────────────────────────────── */
@@ -496,6 +496,7 @@ button[kind="header"] svg,
 }
 
 .hero-title {
+    font-family: 'Manrope', 'Inter', sans-serif;
     font-size: 34px;
     font-weight: 800;
     color: #F2ECD8;
@@ -514,6 +515,79 @@ button[kind="header"] svg,
     color: #4A6080;
     letter-spacing: 0.01em;
     line-height: 1.5;
+}
+
+/* ── TRUST BADGES ─────────────────────────────────────────────── */
+.trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #9FB0C8;
+    background: rgba(201,162,39,0.06);
+    border: 1px solid rgba(201,162,39,0.18);
+    border-radius: 100px;
+    padding: 5px 12px;
+}
+
+.trust-badge.live {
+    color: #7FE8A0;
+    border-color: rgba(127,232,160,0.25);
+    background: rgba(127,232,160,0.06);
+}
+
+.trust-badge.live::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #4ADE80;
+    box-shadow: 0 0 6px rgba(74,222,128,0.8);
+    animation: livePulse 2s ease-in-out infinite;
+}
+
+@keyframes livePulse {
+    0%, 100% { opacity: 1; }
+    50%       { opacity: 0.4; }
+}
+
+/* ── QUICK-START CHIPS ────────────────────────────────────────── */
+.quickstart-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #5A7090;
+    margin: 4px 0 10px 2px;
+}
+
+div[data-testid="stButton"] button[kind="secondary"].quickstart-btn,
+.quickstart-wrap div[data-testid="stButton"] button {
+    background: rgba(26,40,86,0.35) !important;
+    border: 1px solid rgba(201,162,39,0.2) !important;
+    color: #C7D2E3 !important;
+    border-radius: 100px !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    padding: 6px 16px !important;
+    transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.quickstart-wrap div[data-testid="stButton"] button:hover {
+    border-color: rgba(201,162,39,0.5) !important;
+    background: rgba(201,162,39,0.08) !important;
+    color: #F2ECD8 !important;
 }
 
 

@@ -187,6 +187,11 @@ st.markdown(f"""
       AI-powered scam detection &nbsp;·&nbsp; Free &nbsp;·&nbsp;
       No sign-up &nbsp;·&nbsp; Built for every Nigerian
     </div>
+    <div class="trust-row">
+      <span class="trust-badge">🔒&nbsp; Powered by Google Gemini</span>
+      <span class="trust-badge">🇳🇬&nbsp; Built for Nigeria</span>
+      <span class="trust-badge live">&nbsp;Online now</span>
+    </div>
   </div>
 </div>
 """, unsafe_allow_html=True)
@@ -199,9 +204,41 @@ for msg in st.session_state.messages:
         st.write(msg["content"])
 
 # ──────────────────────────────────────────────────────────────────────────────
+# QUICK-START CHIPS
+# Shown only before the first real user message — gives people who have
+# never used an AI chat something to tap instead of a blank input box.
+# ──────────────────────────────────────────────────────────────────────────────
+QUICKSTART_EXAMPLES = [
+    "Someone texted saying I won a MTN promo and must pay a fee to claim it",
+    "A job offer wants me to pay a training or registration fee upfront",
+    "Someone asked me to invest and promised double my money in a week",
+]
+
+no_user_messages_yet = not any(
+    m["role"] == "user" for m in st.session_state.messages
+)
+
+if no_user_messages_yet:
+    st.markdown('<p class="quickstart-label">TRY AN EXAMPLE</p>', unsafe_allow_html=True)
+    st.markdown('<div class="quickstart-wrap">', unsafe_allow_html=True)
+    cols = st.columns(len(QUICKSTART_EXAMPLES))
+    for col, example in zip(cols, QUICKSTART_EXAMPLES):
+        with col:
+            if st.button(example, key=f"qs_{example[:12]}", use_container_width=True):
+                st.session_state.pending_prompt = example
+                st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# ──────────────────────────────────────────────────────────────────────────────
 # CHAT INPUT & RESPONSE
 # ──────────────────────────────────────────────────────────────────────────────
-if prompt := st.chat_input("Paste or describe a suspicious message, call, or offer…"):
+prompt = st.chat_input("Paste or describe a suspicious message, call, or offer…")
+
+# A quick-start chip click sets this instead of the chat input.
+if not prompt and "pending_prompt" in st.session_state:
+    prompt = st.session_state.pop("pending_prompt")
+
+if prompt:
 
     # Append and render user message immediately
     st.session_state.messages.append({"role": "user", "content": prompt})
