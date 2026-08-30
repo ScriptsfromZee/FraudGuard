@@ -139,12 +139,12 @@ THINGS YOU WILL NEVER DO:
 MAX_HISTORY_MESSAGES: int = 10
 
 # Hardcoded model — no in-app picker.
-# gemini-2.5-flash is a stable, generally-available model (not a preview),
-# which matters because Google's Gemini 3 "preview" models get retired on
-# short notice. If this ever errors with "model not found", check the
-# current list at https://ai.google.dev/gemini-api/docs/models and swap
-# the ID below.
-MODEL_ID: str = "gemini-2.5-flash"
+# gemini-2.5-flash was retired for new API keys (Aug 2026) — confirmed by
+# Google's own 404 response, which pointed us to gemini-3.6-flash below.
+# This is a stable GA model (released July 2026), not a preview, but Google
+# ships new Flash versions every few weeks — if this ever 404s again, check
+# https://ai.google.dev/gemini-api/docs/models for the current stable ID.
+MODEL_ID: str = "gemini-3.6-flash"
 
 GREETING = (
     "Hello! I am Jojo — your personal fraud detection assistant.\n\n"
@@ -253,21 +253,35 @@ if prompt := st.chat_input("Paste or describe a suspicious message, call, or off
                     )
 
             except genai_errors.APIError as exc:
-                # TEMP DEBUG: shows the real error directly in the chat so we
-                # can diagnose without relying on the cloud log viewer.
-                # Remove this block once the Gemini switch is confirmed working —
-                # real users should never see raw error text.
-                reply = (
-                    f"⚠️ DEBUG — Gemini APIError\n\n"
-                    f"code: `{exc.code}`\n\n"
-                    f"message: `{exc}`"
-                )
+                print(f"[Jojo DEBUG] Gemini APIError code={exc.code}: {exc}")
+
+                if exc.code == 429:
+                    reply = (
+                        "I am receiving too many requests right now — please wait "
+                        "about 30 seconds and try again."
+                    )
+                elif exc.code in (401, 403):
+                    reply = (
+                        "Authentication failed — the API key appears to be invalid.\n\n"
+                        "Please check **App Settings → Secrets** and verify that "
+                        "`GEMINI_API_KEY` is correct."
+                    )
+                elif exc.code == 404:
+                    # This means MODEL_ID in the code is stale (Google retired it).
+                    # Not something an end user can fix — surfaced plainly so the
+                    # developer notices it in logs/screenshots.
+                    reply = (
+                        "Jojo's AI engine is temporarily unavailable — the team has "
+                        "been notified. Please try again shortly."
+                    )
+                else:
+                    reply = (
+                        "Something went wrong on my end. Please try again in a moment."
+                    )
             except Exception as exc:
-                # TEMP DEBUG — see comment above.
+                print(f"[Jojo DEBUG] Unexpected error: {type(exc).__name__}: {exc}")
                 reply = (
-                    f"⚠️ DEBUG — Unexpected error\n\n"
-                    f"type: `{type(exc).__name__}`\n\n"
-                    f"message: `{exc}`"
+                    "Something went wrong on my end. Please try again in a moment."
                 )
 
         st.write(reply)
@@ -331,7 +345,7 @@ with col2:
 
 st.markdown("""
 <div class="sb-footer">
-  Built by Derek Chizogam <br>
+  Built by Derek Chizogam · AISIP Cohort 1<br>
   Powered by Gemini AI · Always free<br>
   No data stored or shared
 </div>
